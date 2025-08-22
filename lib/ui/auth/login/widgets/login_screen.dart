@@ -1,0 +1,82 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_app_template/ui/auth/login/widgets/auth_textfield.dart';
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    // print('this is in the login Screen');
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsetsGeometry.symmetric(horizontal: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Spacer(),
+              Text(
+                'Login',
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 32),
+              ),
+              AuthTextField(controller: _emailController),
+              SizedBox(height: 16),
+              AuthTextField(
+                controller: _passwordController,
+                hintText: 'Password',
+                iconData: Icons.password,
+              ),
+              SizedBox(height: 32),
+              ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 600),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: TextButton(
+                    onPressed: () {
+                      print('button clicked');
+                    },
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadiusGeometry.circular(6),
+                      ),
+                    ),
+                    child: Text('Login', style: TextStyle(color: Colors.white)),
+                  ),
+                ),
+              ),
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 32.0),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Text('Don\'t have an account?'),
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Text(
+                        'Register here.',
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
