@@ -3,20 +3,20 @@ import 'package:flutter_app_template/routing/routes.dart';
 import 'package:flutter_app_template/ui/auth/login/widgets/auth_textfield.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    // print('this is in the login Screen');
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -27,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               const Spacer(),
               Text(
-                'Login',
+                'Sign up',
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 32),
               ),
               AuthTextField(controller: _emailController),
@@ -36,6 +36,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 controller: _passwordController,
                 hintText: 'Password',
                 iconData: Icons.password,
+              ),
+              SizedBox(height: 16),
+              AuthTextField(
+                controller: _confirmPasswordController,
+                hintText: 'Confirm password',
+                iconData: Icons.lock,
               ),
               SizedBox(height: 32),
               ConstrainedBox(
@@ -63,12 +69,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(right: 8.0),
-                      child: Text('Don\'t have an account?'),
+                      child: Text('Already have an account?'),
                     ),
                     GestureDetector(
-                      onTap: () {context.go(AppRoutes.signup);},
+                      onTap: () {
+                        context.go(AppRoutes.login);
+                      },
                       child: Text(
-                        'Register here.',
+                        'Login here.',
                         style: TextStyle(color: Colors.blue),
                       ),
                     ),

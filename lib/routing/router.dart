@@ -1,5 +1,6 @@
 import 'package:flutter_app_template/routing/routes.dart';
 import 'package:flutter_app_template/ui/auth/login/widgets/login_screen.dart';
+import 'package:flutter_app_template/ui/auth/login/widgets/signup_screen.dart';
 import 'package:flutter_app_template/ui/home/widgets/home_screen.dart';
 import 'package:go_router/go_router.dart';
 
@@ -17,7 +18,15 @@ final router = GoRouter(
       path: AppRoutes.login,
       builder: (context, state) {
         return LoginScreen();
-      },  
+      },
+      routes: [
+        GoRoute(
+          path: AppRoutes.signupRelative,
+          builder: (context, state) {
+            return SignupScreen();
+          },
+        ),
+      ],
     ),
   ],
 );
