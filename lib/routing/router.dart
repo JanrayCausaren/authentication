@@ -1,7 +1,7 @@
-import 'package:flutter_app_template/routing/routes.dart';
-import 'package:flutter_app_template/ui/auth/login/widgets/login_screen.dart';
-import 'package:flutter_app_template/ui/auth/login/widgets/signup_screen.dart';
-import 'package:flutter_app_template/ui/home/widgets/home_screen.dart';
+import 'package:authentication_app/routing/routes.dart';
+import 'package:authentication_app/ui/auth/login/widgets/login_screen.dart';
+import 'package:authentication_app/ui/auth/login/widgets/signup_screen.dart';
+import 'package:authentication_app/ui/home/widgets/home_screen.dart';
 import 'package:go_router/go_router.dart';
 
 final router = GoRouter(

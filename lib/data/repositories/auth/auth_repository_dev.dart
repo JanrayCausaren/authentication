@@ -1,5 +1,5 @@
-import 'package:flutter_app_template/data/repositories/auth/auth_repository.dart';
-import 'package:flutter_app_template/ui/utils/result.dart';
+import 'package:authentication_app/data/repositories/auth/auth_repository.dart';
+import 'package:authentication_app/ui/utils/result.dart';
 
 class AuthRepositoryDev extends AuthRepository {
   /// User is always authenticated in dev scenarios

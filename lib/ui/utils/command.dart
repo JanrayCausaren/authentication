@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_template/ui/utils/result.dart';
+import 'package:authentication_app/ui/utils/result.dart';
 
 
 typedef CommandAction0<T> = Future<Result<T>> Function();

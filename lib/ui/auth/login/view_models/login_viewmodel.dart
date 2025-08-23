@@ -1,6 +1,6 @@
-import 'package:flutter_app_template/data/repositories/auth/auth_repository.dart';
-import 'package:flutter_app_template/ui/utils/command.dart';
-import 'package:flutter_app_template/ui/utils/result.dart';
+import 'package:authentication_app/data/repositories/auth/auth_repository.dart';
+import 'package:authentication_app/ui/utils/command.dart';
+import 'package:authentication_app/ui/utils/result.dart';
 
 class LoginViewModel {
   LoginViewModel({required AuthRepository authRepository})
@@ -21,7 +21,7 @@ class LoginViewModel {
     if (result is Error<void>) {
       print('Login Failed! ${result.error}');
     }
-    
+
     return result;
   }
 }

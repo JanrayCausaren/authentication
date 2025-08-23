@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_template/routing/routes.dart';
-import 'package:flutter_app_template/ui/auth/login/widgets/auth_textfield.dart';
+import 'package:authentication_app/routing/routes.dart';
+import 'package:authentication_app/ui/auth/login/widgets/auth_textfield.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginScreen extends StatefulWidget {
