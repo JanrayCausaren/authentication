@@ -13,7 +13,7 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController(); 
 
   @override
   Widget build(BuildContext context) {
