@@ -12,6 +12,9 @@ class AuthRepositoryDev extends AuthRepository {
     required String email,
     required String password,
   }) async {
+    print('user login');
+
+    print(Result.ok(null));
     return Result.ok(null);
   }
 

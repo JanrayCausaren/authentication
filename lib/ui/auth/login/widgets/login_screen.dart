@@ -1,10 +1,12 @@
+import 'package:authentication_app/ui/auth/login/view_models/login_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:authentication_app/routing/routes.dart';
 import 'package:authentication_app/ui/auth/login/widgets/auth_textfield.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({super.key, required this.viewmodel});
+  final LoginViewModel viewmodel;
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -14,9 +16,27 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+
+    @override
+  void initState() {
+    super.initState();
+    widget.viewmodel.login.addListener(_onResult);
+  }
+  @override
+  void didUpdateWidget(covariant LoginScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    oldWidget.viewmodel.login.removeListener(_onResult);
+    widget.viewmodel.login.addListener(_onResult);
+  }
+
+  @override
+  void dispose() {
+    widget.viewmodel.login.removeListener(_onResult);
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
-    // print('this is in the login Screen');
+    print('this is in the login Screen');
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -45,6 +65,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: TextButton(
                     onPressed: () {
                       print('button clicked');
+                      widget.viewmodel.login.execute((
+                        _emailController.value.text,
+                        _passwordController.value.text,
+                      ));
                     },
                     style: TextButton.styleFrom(
                       backgroundColor: Colors.blue,
@@ -66,7 +90,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Text('Don\'t have an account?'),
                     ),
                     GestureDetector(
-                      onTap: () {context.go(AppRoutes.signup);},
+                      onTap: () {
+                        context.go(AppRoutes.signup);
+                      },
                       child: Text(
                         'Register here.',
                         style: TextStyle(color: Colors.blue),
@@ -80,5 +106,28 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+  void _onResult() {
+    if (widget.viewmodel.login.success) {
+      widget.viewmodel.login.clearResult();
+      context.go(AppRoutes.signup);
+    }
+
+    // if (widget.viewmodel.login.error) {
+    //   widget.viewmodel.login.clearResult();
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(
+    //       content: Text(AppLocalization.of(context).errorWhileLogin),
+    //       action: SnackBarAction(
+    //         label: AppLocalization.of(context).tryAgain,
+    //         onPressed:
+    //             () => widget.viewmodel.login.execute((
+    //               _email.value.text,
+    //               _password.value.text,
+    //             )),
+    //       ),
+    //     ),
+    //   );
+    // }
   }
 }
