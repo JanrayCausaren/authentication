@@ -1,9 +1,14 @@
 class LoginRequest {
   const LoginRequest({required this.email, required this.password});
 
-  factory LoginRequest.fromJson(Map<String, Object?> json) {
+  // Convert object → JSON
+  Map<String, dynamic> toJson() {
+    return {"username": email, "password": password};
+  }
+
+  factory LoginRequest.toJson(Map<String, Object?> json) {
     return LoginRequest(
-      email: json["email"] as String,
+      email: json["username"] as String,
       password: json["password"] as String,
     );
   }
