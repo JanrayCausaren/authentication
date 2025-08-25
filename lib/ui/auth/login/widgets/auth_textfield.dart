@@ -18,6 +18,7 @@ class AuthTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     // print('this is in the textfield');
     return TextFormField(
+      controller: controller,
       // style: TextStyle(color: Colors.red),
       onChanged: (value) => print(value),
       validator: (value) {

@@ -6,12 +6,12 @@ class LoginRequest {
     return {"username": email, "password": password};
   }
 
-  factory LoginRequest.toJson(Map<String, Object?> json) {
-    return LoginRequest(
-      email: json["username"] as String,
-      password: json["password"] as String,
-    );
-  }
+  // factory LoginRequest.toJson(Map<String, Object?> json) {
+  //   return LoginRequest(
+  //     email: json["username"] as String,
+  //     password: json["password"] as String,
+  //   );
+  // }
 
   final String email;
   final String password;

@@ -13,15 +13,15 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _emailController = TextEditingController(text: 'email@example.com');
+  final _passwordController = TextEditingController(text: 'password');
 
-
-    @override
+  @override
   void initState() {
     super.initState();
     widget.viewmodel.login.addListener(_onResult);
   }
+
   @override
   void didUpdateWidget(covariant LoginScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -34,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
     widget.viewmodel.login.removeListener(_onResult);
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     print('this is in the login Screen');
@@ -66,9 +67,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {
                       print('button clicked');
                       widget.viewmodel.login.execute((
-                        _emailController.value.text,
-                        _passwordController.value.text,
+                        _emailController.text,
+                        _passwordController.text,
                       ));
+
+                      print(_emailController.text);
+                      print(_passwordController.text);
                     },
                     style: TextButton.styleFrom(
                       backgroundColor: Colors.blue,
@@ -107,6 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
   void _onResult() {
     if (widget.viewmodel.login.success) {
       widget.viewmodel.login.clearResult();

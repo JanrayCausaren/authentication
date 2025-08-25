@@ -15,29 +15,33 @@ class Services {
 
   String get _baseURL => "$_host:$_port";
 
-  
-
   Future<Result<LoginResponse>> login(LoginRequest request) async {
-      final endpoint = '/login';
-      final url = Uri.parse("http://$_baseURL$endpoint");
+    final endpoint = '/login';
+    final url = Uri.parse("http://$_baseURL$endpoint");
 
-      final response = await http.post(
+    final requestf = LoginRequest(email: "ray", password: "1234");
+
+    final response = await http.post(
       url,
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(request.toJson()), // ✅ send JSON
     );
 
-    if (response.statusCode == 200) {
-      final json = jsonDecode(response.body) as Map<String, dynamic>;
-      return Result.ok(LoginResponse.fromJson(json)); // ✅ parse JSON
-    } else {
-      return  Result.error(throw Exception("Failed to login: ${response.statusCode}"));
+    try {
+      if (response.statusCode == 200) {
+        final json = jsonDecode(response.body) as Map<String, dynamic>;
+
+        print(json);
+        return Result.ok(LoginResponse.fromJson(json)); // ✅ parse JSON
+      } else {
+        return Result.error(
+          throw Exception("Failed to login: ${response.statusCode}"),
+        );
+      }
+    } on Exception catch (error) {
+      print('this is the services error');
+      return Result.error(error);
     }
-
-
-
-    
-      
 
     //    final response = await http.post(
     //   url,
@@ -50,6 +54,5 @@ class Services {
     //   return LoginResponse.fromJson(json); // ✅ parse JSON
     // } else {
     //   throw Exception("Failed to login: ${response.statusCode}");
-   
   }
 }
