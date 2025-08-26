@@ -1,5 +1,7 @@
+import 'package:authentication_app/data/repositories/auth/registration/auth_repository_registration_remote.dart';
 import 'package:authentication_app/routing/routes.dart';
 import 'package:authentication_app/ui/auth/login/view_models/login_viewmodel.dart';
+import 'package:authentication_app/ui/auth/login/view_models/registration_viewmodel.dart';
 import 'package:authentication_app/ui/auth/login/widgets/login_screen.dart';
 import 'package:authentication_app/ui/auth/login/widgets/signup_screen.dart';
 import 'package:authentication_app/ui/home/widgets/home_screen.dart';
@@ -21,13 +23,15 @@ final router = GoRouter(
       builder: (context, state) {
         final viewmodel = LoginViewModel(authRepository: context.read());
         return LoginScreen(viewmodel: viewmodel);
-        
       },
       routes: [
         GoRoute(
           path: AppRoutes.signupRelative,
           builder: (context, state) {
-            return SignupScreen();
+            final viewmodel = RegistrationViewmodel(
+              registrationRepository: context.read()
+            );
+            return SignupScreen(viewmodel: viewmodel,);
           },
         ),
       ],

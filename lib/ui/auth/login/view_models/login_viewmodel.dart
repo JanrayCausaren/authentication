@@ -18,6 +18,8 @@ class LoginViewModel {
       password: password,
     );
 
+    print('this is in the view model and the result id $result');
+
     if (result is Error<void>) {
       print('Login Failed! ${result.error}');
     }

@@ -1,10 +1,13 @@
+import 'package:authentication_app/ui/auth/login/view_models/registration_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:authentication_app/routing/routes.dart';
 import 'package:authentication_app/ui/auth/login/widgets/auth_textfield.dart';
 import 'package:go_router/go_router.dart';
 
 class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+  const SignupScreen({super.key, required this.viewmodel});
+
+  final RegistrationViewmodel viewmodel;
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
@@ -13,7 +16,7 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController(); 
+  final _confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +53,14 @@ class _SignupScreenState extends State<SignupScreen> {
                   width: double.infinity,
                   child: TextButton(
                     onPressed: () {
-                      print('button clicked');
+                      print('sign up button clicked');
+                      widget.viewmodel.signup.execute((
+                        _emailController.text,
+                        _passwordController.text,
+                      ));
+
+                      print('the view is executing: ${widget.viewmodel.signup.isExecuting}');
+                      context.go(AppRoutes.login);
                     },
                     style: TextButton.styleFrom(
                       backgroundColor: Colors.blue,
@@ -58,7 +68,9 @@ class _SignupScreenState extends State<SignupScreen> {
                         borderRadius: BorderRadiusGeometry.circular(6),
                       ),
                     ),
-                    child: Text('Login', style: TextStyle(color: Colors.white)),
+                    child: widget.viewmodel.signup.isExecuting
+                        ? CircularProgressIndicator()
+                        : Text('Login', style: TextStyle(color: Colors.white)),
                   ),
                 ),
               ),

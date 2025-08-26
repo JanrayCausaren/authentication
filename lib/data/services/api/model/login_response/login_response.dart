@@ -23,11 +23,4 @@ class LoginResponse {
     );
   }
 
-  // Map<String, dynamic> toJson() {
-  //   return {
-  //     // 'token': token,
-  //     // 'userId': userId,
-  //     // 'expiresIn': expiresIn,
-  //   };
-  // }
 }
