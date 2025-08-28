@@ -18,7 +18,7 @@ class AuthRepositoryRegistrationRemote extends AuthRepositoryRegistration {
     }
 
     return _isRegistered ?? false;
-  }
+  }  
 
   @override
   Future<Result<void>> signIn({
