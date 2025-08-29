@@ -21,6 +21,7 @@ class SecureStorageService {
 
   final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
   static const String _tokenKey = 'JWToken';
+  String get token => _tokenKey;
 
   Future<Result<void>> saveToken(String token) async {
     try {

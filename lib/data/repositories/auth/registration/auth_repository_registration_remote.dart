@@ -2,13 +2,18 @@ import 'package:authentication_app/data/repositories/auth/registration/auth_repo
 import 'package:authentication_app/data/services/api/model/signup/signup_request.dart';
 import 'package:authentication_app/data/services/api/model/signup/signup_response.dart';
 import 'package:authentication_app/data/services/api/services.dart';
+import 'package:authentication_app/data/services/local/secure_storage_service.dart';
 import 'package:authentication_app/ui/utils/result.dart';
 
 class AuthRepositoryRegistrationRemote extends AuthRepositoryRegistration {
-  AuthRepositoryRegistrationRemote({required Services services})
-    : _services = services;
+  AuthRepositoryRegistrationRemote({
+    required Services services,
+    required SecureStorageService secureStorage,
+  }) : _services = services,
+       _secureStorageService = secureStorage;
 
   final Services _services;
+  final SecureStorageService _secureStorageService;
   bool? _isRegistered;
 
   @override
@@ -18,7 +23,7 @@ class AuthRepositoryRegistrationRemote extends AuthRepositoryRegistration {
     }
 
     return _isRegistered ?? false;
-  }  
+  }
 
   @override
   Future<Result<void>> signIn({
@@ -32,7 +37,19 @@ class AuthRepositoryRegistrationRemote extends AuthRepositoryRegistration {
     try {
       switch (result) {
         case Ok<SignupResponse>():
-       
+          final saveTokenMethod = await _secureStorageService.saveToken(
+            result.value.token,
+          );
+          if (saveTokenMethod is Ok) {
+            print('token is already saved!');
+          }
+
+          final tokenValue = await _secureStorageService.readToken(
+            _secureStorageService.token,
+          );
+
+          print('The token value is : $tokenValue');
+
           return Result.ok(null);
         case Error<SignupResponse>():
           return Result.error(result.error);
