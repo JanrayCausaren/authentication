@@ -7,6 +7,15 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       
-      body: Center(child: Text('Welcome Home')));
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          
+          children: [
+            Text('Welcome Home'),
+            Text('Hello User'),
+          ],
+        ),
+      ));
   }
 }

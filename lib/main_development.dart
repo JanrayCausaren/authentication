@@ -6,5 +6,6 @@ import 'package:provider/provider.dart';
 //for development config
 
 void main() {
+
   runApp(MultiProvider(providers: providersLocal, child: MyApp()));
 }

@@ -25,39 +25,40 @@ class SecureStorageService {
 
   Future<Result<void>> saveToken(String token) async {
     try {
-      final _result = await _secureStorage.write(key: _tokenKey, value: token);
-      return Result.ok(_result);
+      final result = await _secureStorage.write(key: _tokenKey, value: token);
+      return Result.ok(result);
     } catch (e) {
       Result.error(throw Exception('Failed to save token: $e'));
     }
   }
 
-  Future<Result<void>> deleteToken(String token) async {
+  Future<Result<void>> deleteToken(String tokenKey) async {
     try {
-      final _result = await _secureStorage.delete(key: _tokenKey);
-      return Result.ok(_result);
+      final result = await _secureStorage.delete(key: _tokenKey);
+      return Result.ok(result);
     } catch (e) {
       return Result.error(throw Exception('Failed to delete token : $e'));
     }
   }
 
-  Future<Result<String?>> getToken(String key) async {
-    try {
-      final _result = await _secureStorage.read(key: key);
+  Future<Result<String?>> readToken(String key) async {
 
-      return Result.ok(_result);
+    try {
+      await Future.delayed(Duration(seconds: 4));
+      final result = await _secureStorage.read(key: key);
+      return Result.ok(result);
     } catch (e) {
       return Result.error(throw Exception('Failed to get token : $e'));
     }
   }
 
-  Future<Result<String?>> readToken(String key) async {
-    try {
-      final _result = await _secureStorage.read(key: key);
-      print(_result);
-      return Result.ok(_result);
-    } catch (e) {
-      return Result.error(throw Exception('Failed to read token $e'));
-    }
-  }
+  // Future<Result<String?>> readToken(String key) async {
+  //   try {
+  //     final _result = await _secureStorage.read(key: key);
+  //     print(_result);
+  //     return Result.ok(_result);
+  //   } catch (e) {
+  //     return Result.error(throw Exception('Failed to read token $e'));
+  //   }
+  // }
 }

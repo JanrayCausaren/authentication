@@ -70,6 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         _emailController.text,
                         _passwordController.text,
                       ));
+                      print('tapp continuously');
 
                       print(_emailController.text);
                       print(_passwordController.text);
@@ -80,7 +81,25 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadiusGeometry.circular(6),
                       ),
                     ),
-                    child: Text('Login', style: TextStyle(color: Colors.white)),
+                    child: ListenableBuilder(
+                      listenable: widget.viewmodel.login,
+                      builder: (context, child) {
+                        print('rebuilding');
+                        if (widget.viewmodel.login.isExecuting) {
+                          return CircularProgressIndicator(
+                            strokeWidth: 1,
+                            color: Colors.white,
+                            padding: EdgeInsets.all(4),
+                            constraints: BoxConstraints(minHeight: 10, minWidth: 10)
+                          );
+                        }
+
+                        return Text(
+                          'Login',
+                          style: TextStyle(color: Colors.white),
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -115,24 +134,24 @@ class _LoginScreenState extends State<LoginScreen> {
   void _onResult() {
     if (widget.viewmodel.login.success) {
       widget.viewmodel.login.clearResult();
-      context.go(AppRoutes.signup);
+      context.go(AppRoutes.home);
     }
 
-    // if (widget.viewmodel.login.error) {
-    //   widget.viewmodel.login.clearResult();
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     SnackBar(
-    //       content: Text(AppLocalization.of(context).errorWhileLogin),
-    //       action: SnackBarAction(
-    //         label: AppLocalization.of(context).tryAgain,
-    //         onPressed:
-    //             () => widget.viewmodel.login.execute((
-    //               _email.value.text,
-    //               _password.value.text,
-    //             )),
-    //       ),
-    //     ),
-    //   );
-    // }
+    if (widget.viewmodel.login.error) {
+      widget.viewmodel.login.clearResult();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error'),
+          action: SnackBarAction(
+            label: 'failed to login',
+            onPressed:
+                () => widget.viewmodel.login.execute((
+                  _emailController.value.text,
+                  _passwordController.value.text,
+                )),
+          ),
+        ),
+      );
+    }
   }
 }

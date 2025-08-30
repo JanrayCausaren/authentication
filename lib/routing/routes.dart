@@ -4,4 +4,5 @@ abstract class AppRoutes{
   static const login = '/login';
   static const signup = '$login/$signupRelative';
   static const signupRelative = 'signup';
+  static const splashScreen = '/splash';
 }

@@ -20,7 +20,11 @@ List<SingleChildWidget> get providersRemote {
     Provider(create: (context) => SecureStorageService()),
     ChangeNotifierProvider(
       create: (context) =>
-          AuthRepositoryRemote(services: context.read()) as AuthRepository,
+          AuthRepositoryRemote(
+                services: context.read(),
+                secureStorageService: context.read(),
+              )
+              as AuthRepository,
     ),
     ChangeNotifierProvider(
       create: (context) =>

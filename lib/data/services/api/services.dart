@@ -33,6 +33,7 @@ class Services {
     );
 
     try {
+      await Future.delayed(Duration(seconds: 3));
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
 

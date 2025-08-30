@@ -23,4 +23,8 @@ class AuthRepositoryDev extends AuthRepository {
   Future<Result<void>> logout() async {
     return const Result.ok(null);
   }
+  
+  @override
+  
+  bool get isLoaded => throw UnimplementedError();
 }

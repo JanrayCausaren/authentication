@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:authentication_app/routing/router.dart';
+import 'package:provider/provider.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         fontFamily: 'Poppins'
       ),
-      routerConfig: router,
+      routerConfig: router(context.read()) ,
     );
   }
 }
