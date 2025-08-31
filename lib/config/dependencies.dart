@@ -18,6 +18,7 @@ List<SingleChildWidget> get providersRemote {
   return [
     Provider(create: (context) => Services(host: '192.168.68.118')),
     Provider(create: (context) => SecureStorageService()),
+    
     ChangeNotifierProvider(
       create: (context) =>
           AuthRepositoryRemote(

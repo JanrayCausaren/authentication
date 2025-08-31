@@ -24,7 +24,5 @@ class AuthRepositoryDev extends AuthRepository {
     return const Result.ok(null);
   }
   
-  @override
-  
-  bool get isLoaded => throw UnimplementedError();
+
 }

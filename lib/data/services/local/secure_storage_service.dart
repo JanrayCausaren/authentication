@@ -32,6 +32,7 @@ class SecureStorageService {
     }
   }
 
+  ///Delete the acess token then redirect again to login
   Future<Result<void>> deleteToken(String tokenKey) async {
     try {
       final result = await _secureStorage.delete(key: _tokenKey);
@@ -42,9 +43,8 @@ class SecureStorageService {
   }
 
   Future<Result<String?>> readToken(String key) async {
-
     try {
-      await Future.delayed(Duration(seconds: 4));
+      // await Future.delayed(Duration(seconds: 4));
       final result = await _secureStorage.read(key: key);
       return Result.ok(result);
     } catch (e) {

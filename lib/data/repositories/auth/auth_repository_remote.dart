@@ -16,7 +16,6 @@ class AuthRepositoryRemote extends AuthRepository {
   final SecureStorageService _secureStorageService;
   bool? _isAuthenticated;
   String? _authtoken;
-  bool? _isLoaded;
 
   // /// Fetch token from shared preferences
   // Future<void> _fetch() async {
@@ -77,10 +76,13 @@ class AuthRepositoryRemote extends AuthRepository {
     );
 
     try {
+      print('deleting token');
       switch (deleteToken) {
         case Ok<void>():
           _authtoken = null;
-          return Result.ok(null);
+          _isAuthenticated = false;
+          print('deleting token');
+          return deleteToken;
         case Error<void>():
           return Result.error(deleteToken.error);
       }
@@ -88,34 +90,6 @@ class AuthRepositoryRemote extends AuthRepository {
       notifyListeners();
     }
   }
-
-  @override
-  bool get isLoaded  {
-    if (_isLoaded != null) {
-      return _isLoaded!;
-    }
-    return _isLoaded ?? false;
-  }
-
-  // Future<void> fetchToken() async {
-  //   final result = await _secureStorageService.readToken(
-  //     _secureStorageService.token,
-  //   );
-  //   try {
-  //     switch (result) {
-  //       case Ok<String?>():
-  //         _authtoken = result.value;
-  //         _isAuthenticated = _isAuthenticated != null;
-
-  //       case Error<String?>():
-  //         print('Error from auth repo');
-  //     }
-  //   } catch (e) {
-  //     'Error fetching token from authrepository $e';
-  //   } finally {
-  //     notifyListeners();
-  //   }
-  // }
 
   Future<void> loadFromStorage() async {
     final accessToken = await _secureStorageService.readToken(
@@ -126,12 +100,11 @@ class AuthRepositoryRemote extends AuthRepository {
         print('Succesful read token : ${accessToken.value}');
         _isAuthenticated = accessToken.value != null;
         _authtoken = accessToken.value;
-        _isLoaded = true;
+
+        print('isAuthenticaded value is : $_isAuthenticated');
         notifyListeners();
 
       case Error<String?>():
-      
-
         print('No token in this device');
     }
   }

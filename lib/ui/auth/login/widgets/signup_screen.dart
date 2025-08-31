@@ -20,6 +20,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('this is in the signup screen');
     return Scaffold(
       body: SafeArea(
         child: Padding(

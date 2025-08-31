@@ -6,6 +6,7 @@ import 'package:authentication_app/ui/auth/login/view_models/login_viewmodel.dar
 import 'package:authentication_app/ui/auth/login/view_models/registration_viewmodel.dart';
 import 'package:authentication_app/ui/auth/login/widgets/login_screen.dart';
 import 'package:authentication_app/ui/auth/login/widgets/signup_screen.dart';
+import 'package:authentication_app/ui/auth/logout/view_models/logout_viewmodel.dart';
 import 'package:authentication_app/ui/home/widgets/home_screen.dart';
 import 'package:authentication_app/ui/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +17,10 @@ import 'package:provider/provider.dart';
 ///listen for changes in the authrepository to redirect the the user
 /// to /login page when user tend to logout
 GoRouter router(AuthRepository authRepository) => GoRouter(
-  initialLocation: AppRoutes.splashScreen,
+  initialLocation: AppRoutes.login,
   debugLogDiagnostics: true,
   refreshListenable: authRepository,
   redirect: _redirect,
-
   routes: [
     GoRoute(
       path: AppRoutes.splashScreen,
@@ -31,7 +31,8 @@ GoRouter router(AuthRepository authRepository) => GoRouter(
     GoRoute(
       path: AppRoutes.home,
       builder: (context, state) {
-        return HomeScreen();
+        final viewmodel = LogoutViewmodel(authRepository: context.read());
+        return HomeScreen(logoutViewmodel: viewmodel,);
       },
     ),
     GoRoute(
@@ -56,10 +57,8 @@ GoRouter router(AuthRepository authRepository) => GoRouter(
 );
 
 Future<String?> _redirect(BuildContext context, GoRouterState state) async {
-  final authRepo = context.read<AuthRepository>();
-  final authenticated = await authRepo
-      .isAuthenticated; // it have function of load from secure storage
-  final isLoaded =  authRepo.isLoaded;
+  final authenticated =  await context.read<AuthRepository>().isAuthenticated; // it have function of load from secure storage
+  // final isLoaded =  authRepo.isLoaded;
   final loggingIn = state.matchedLocation.startsWith(AppRoutes.login);
 
   // // Still loading → stay on splash
@@ -67,15 +66,19 @@ Future<String?> _redirect(BuildContext context, GoRouterState state) async {
   //   print('the token is loading $isLoaded');
   //   print('send to splash screen');
   //   return AppRoutes.splashScreen;
-  // } else if (!authenticated && !loggingIn) {
-  //   // If the user is not logged in but is trying to go somewhere else → send to login
-  //   print('proceed to login screen');
-  //   return AppRoutes.login;
-  // } else if (authenticated && isLoaded) {
-  //   // If user is logged in but still on the login page → go to home
-  //   print('proceed to home screen');
-  //   return AppRoutes.home;
   // }
+
+  if (!authenticated && !loggingIn) {
+
+    // If the user is not logged in but is trying to go somewhere else → send to login
+    print('proceed to login screen');
+    return AppRoutes.login;
+  }
+  // If user is logged in but still on the login page → go to home
+  if (authenticated && loggingIn) {
+    print('proceed to home screen');
+    return AppRoutes.home;
+  }
 
   return null;
 }
