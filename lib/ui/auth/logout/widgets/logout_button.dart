@@ -25,11 +25,14 @@ class _LogoutButtonState extends State<LogoutButton> {
     }
   }
 
+
   //   @override
   // void initState() {
   //   super.initState();
   //   widget.viewmodel.logout.addListener(_onResult);
   // }
+
+ 
 
 
   // @override

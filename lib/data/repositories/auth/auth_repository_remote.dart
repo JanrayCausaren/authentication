@@ -1,36 +1,23 @@
 import 'package:authentication_app/data/repositories/auth/auth_repository.dart';
-import 'package:authentication_app/data/services/api/model/login_request/login_request.dart';
-import 'package:authentication_app/data/services/api/model/login_response/login_response.dart';
-import 'package:authentication_app/data/services/api/services.dart';
+import 'package:authentication_app/data/services/api/model/auth/auth_api_model.dart';
+import 'package:authentication_app/data/services/api/model/auth/login_request.dart';
+import 'package:authentication_app/data/services/api/api_client.dart';
 import 'package:authentication_app/data/services/local/secure_storage_service.dart';
 import 'package:authentication_app/ui/utils/result.dart';
 
 class AuthRepositoryRemote extends AuthRepository {
   AuthRepositoryRemote({
-    required Services services,
+    required ApiClientService services,
     required SecureStorageService secureStorageService,
   }) : _services = services,
-       _secureStorageService = secureStorageService;
+       _secureStorageService = secureStorageService {
+    services.authHeaderProvider = _authHeaderProvider;
+  }
 
-  final Services _services;
+  final ApiClientService _services;
   final SecureStorageService _secureStorageService;
   bool? _isAuthenticated;
-  String? _authtoken;
-
-  // /// Fetch token from shared preferences
-  // Future<void> _fetch() async {
-  //   final result = await _sharedPreferencesService.fetchToken();
-  //   switch (result) {
-  //     case Ok<String?>():
-  //       _authToken = result.value;
-  //       _isAuthenticated = result.value != null;
-  //     case Error<String?>():
-  //       _log.severe(
-  //         'Failed to fech Token from SharedPreferences',
-  //         result.error,
-  //       );
-  //   }
-  // }
+  String? _authtoken; 
 
   @override
   Future<bool> get isAuthenticated async {
@@ -54,14 +41,16 @@ class AuthRepositoryRemote extends AuthRepository {
     print(LoginRequest(email: email, password: password).toJson());
     try {
       switch (result) {
-        case Ok<LoginResponse>():
+        case Ok<AuthApiModel>():
           _isAuthenticated = true;
-          _authtoken = result.value.token;
+          _authtoken = result.value.accessToken;
 
           print('this is the authrepo, the user is authenticated');
           print(_authtoken);
-          return await _secureStorageService.saveToken(result.value.token);
-        case Error<LoginResponse>():
+          return await _secureStorageService.saveToken(
+            result.value.accessToken,
+          );
+        case Error<AuthApiModel>():
           return Result.error(result.error);
       }
     } finally {
@@ -108,4 +97,7 @@ class AuthRepositoryRemote extends AuthRepository {
         print('No token in this device');
     }
   }
+
+  String? _authHeaderProvider() =>
+      _authtoken != null ? 'Bearer $_authtoken' : null;
 }

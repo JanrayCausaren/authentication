@@ -1,19 +1,32 @@
 import 'dart:convert';
 
-import 'package:authentication_app/data/services/api/model/login_request/login_request.dart';
-import 'package:authentication_app/data/services/api/model/login_response/login_response.dart';
+import 'package:authentication_app/data/services/api/model/auth/auth_api_model.dart';
+import 'package:authentication_app/data/services/api/model/auth/login_request.dart';
 import 'package:authentication_app/data/services/api/model/signup/signup_request.dart';
 import 'package:authentication_app/data/services/api/model/signup/signup_response.dart';
+import 'package:authentication_app/data/services/api/model/user/user_api_model.dart';
 import 'package:authentication_app/ui/utils/result.dart';
 import 'package:http/http.dart' as http;
 
-class Services {
-  Services({String? host, int? port})
-    : _host = host ?? 'localhost',
-      _port = port ?? 3000;
 
-  final String _host;
+typedef AuthHeaderProvider = String? Function();
+
+class ApiClientService {
+  ApiClientService({String? host, int? port, http.Client? client})
+    : _host = host ?? 'localhost',
+      _port = port ?? 3000,
+      _client = client ?? http.Client()
+      ;
+
+  final String _host; 
   final int _port;
+  final http.Client _client;
+
+   AuthHeaderProvider? _authHeaderProvider;
+
+   set authHeaderProvider(AuthHeaderProvider authHeaderProvider){
+    _authHeaderProvider = authHeaderProvider; 
+   }
 
   String get _baseURL => "$_host:$_port";
 
@@ -22,7 +35,29 @@ class Services {
     return Uri.parse(url);
   }
 
-  Future<Result<LoginResponse>> login(LoginRequest request) async {
+
+  
+  /// Builds headers (like your `_authHeader` method)
+  Future<Map<String, String>> _authHeader([Map<String, String>? extra]) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    final header = _authHeaderProvider?.call();
+    if (header != null) {
+      headers['Authorization'] = header; // 👈 same as HttpHeaders.authorizationHeader
+    }
+
+    if (extra != null) {
+      headers.addAll(extra);
+    }
+
+    return headers;
+  }
+
+
+  Future<Result<AuthApiModel>> login(LoginRequest request) async {
     final endpoint = '/login';
     final url = getUrl(endpoint);
 
@@ -39,9 +74,9 @@ class Services {
 
         print('-------');
         print(json);
-        print(Result.ok(LoginResponse.fromJson(json)));
+        print(Result.ok(AuthApiModel.fromJson(json)));
         print('------------');
-        return Result.ok(LoginResponse.fromJson(json)); // ✅ parse JSON
+        return Result.ok(AuthApiModel.fromJson(json)); // ✅ parse JSON
       } else {
         return Result.error(
           throw Exception("Failed to login: ${response.statusCode}"),
@@ -51,18 +86,6 @@ class Services {
       print('this is the services error');
       return Result.error(error);
     }
-
-    //    final response = await http.post(
-    //   url,
-    //   headers: {"Content-Type": "application/json"},
-    //   body: jsonEncode(request.toJson()), // ✅ send JSON
-    // );
-
-    // if (response.statusCode == 200) {
-    //   final json = jsonDecode(response.body) as Map<String, dynamic>;
-    //   return LoginResponse.fromJson(json); // ✅ parse JSON
-    // } else {
-    //   throw Exception("Failed to login: ${response.statusCode}");
   }
 
   Future<Result<SignupResponse>> signup(SignupRequest request) async {
@@ -92,4 +115,15 @@ class Services {
       return Result.error(e);
     }
   }
+
+  // Future<Result<UserApiModel>> getUser() async{
+  //   final url = getUrl('/user');
+  //   final client =  
+
+  //   final response = await http.get(url, headers: {"Content-Type": "application/json"}, );
+
+  //   return 
+  // }
 }
+
+

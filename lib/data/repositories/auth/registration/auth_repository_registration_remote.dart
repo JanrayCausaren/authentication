@@ -1,18 +1,18 @@
 import 'package:authentication_app/data/repositories/auth/registration/auth_repository_registration.dart';
 import 'package:authentication_app/data/services/api/model/signup/signup_request.dart';
 import 'package:authentication_app/data/services/api/model/signup/signup_response.dart';
-import 'package:authentication_app/data/services/api/services.dart';
+import 'package:authentication_app/data/services/api/api_client.dart';
 import 'package:authentication_app/data/services/local/secure_storage_service.dart';
 import 'package:authentication_app/ui/utils/result.dart';
 
 class AuthRepositoryRegistrationRemote extends AuthRepositoryRegistration {
   AuthRepositoryRegistrationRemote({
-    required Services services,
+    required ApiClientService services,
     required SecureStorageService secureStorage,
   }) : _services = services,
        _secureStorageService = secureStorage;
 
-  final Services _services;
+  final ApiClientService _services;
   final SecureStorageService _secureStorageService;
   bool? _isRegistered;
 
