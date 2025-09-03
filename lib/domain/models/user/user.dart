@@ -1,16 +1,17 @@
 class User {
+  User( {
+    required this.id,
+    required this.email,
+    required this.role,
+    required this.accountCreated,
+  });
 
-  User({required this.token, required this.id, required this.email, required this.role});
 
-
-  final String token;
   final String id;
   final String email;
   final UserRole role;
-
+  final String accountCreated;
 }
 
-  enum UserRole { student, teacher, admin, unknown }
-
-
-
+enum UserRole { student, teacher, admin, unknown }
+ 

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "course_201",
+    "title": "Flutter for Beginners",
+    "category": "Mobile Development",
+    "thumbnail_url": "https://cdn.example.com/thumbnails/flutter.png",
+    "progress": "20%",
+    "status": "active"
+  },
+  {
+    "id": "course_202",
+    "title": "Intro to Machine Learning",
+    "category": "AI & Data",
+    "thumbnail_url": "https://cdn.example.com/thumbnails/ml.png",
+    "progress": "0%",
+    "status": "active"
+  },
+  {
+    "id": "course_203",
+    "title": "Data Structures and Algorithms",
+    "category": "Computer Science",
+    "thumbnail_url": "https://cdn.example.com/thumbnails/dsa.png",
+    "progress": "45%",
+    "status": "active"
+  },
+  {
+    "id": "course_204",
+    "title": "Web Development with React",
+    "category": "Web Development",
+    "thumbnail_url": "https://cdn.example.com/thumbnails/react.png",
+    "progress": "80%",
+    "status": "active"
+  },
+  {
+    "id": "course_205",
+    "title": "Database Design & SQL",
+    "category": "Databases",
+    "thumbnail_url": "https://cdn.example.com/thumbnails/sql.png",
+    "progress": "100%",
+    "status": "completed"
+  },
+  {
+    "id": "course_206",
+    "title": "Cybersecurity Fundamentals",
+    "category": "Security",
+    "thumbnail_url": "https://cdn.example.com/thumbnails/cyber.png",
+    "progress": "15%",
+    "status": "active"
+  }
+]
