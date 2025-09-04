@@ -4,8 +4,8 @@ import 'main_development.dart' as development;
 import 'main_production.dart' as production;
 
 void main() {
-  // development.main();
-  production.main();
+  development.main();
+  // production.main();
 }
 
 

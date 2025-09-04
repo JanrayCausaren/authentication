@@ -23,7 +23,7 @@ class CoursesRepositoryDev extends CoursesRepository {
               id: apiModel.id,
               title: apiModel.title,
               category: apiModel.category,
-              thumbnailUrl: apiModel.thumbnailUrl,
+              thumbnailUrl: apiModel.thumbnailUrl, 
               progress: apiModel.progress,
               status: apiModel.status,
             );
